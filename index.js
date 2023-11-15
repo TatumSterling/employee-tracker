@@ -4,11 +4,6 @@ const PORT = 3001
 const db = require('./config/connection');
 
 
-
-
-
-
-
 inquirer
     .prompt([
         {
@@ -22,33 +17,32 @@ inquirer
                 "add a department",
                 "add a role",
                 "add an employee",
-                "update and employee role"
+                "update an employee role"
             ]
 
         }
     ]).then((answers) => {
-        const {choices} = answers;
+        const { command } = answers;
 
-        if (choices === "view all departments") {
-
+        if (command === "view all departments") {
+            viewAllDept();
+        }   
+        if (command === "view all roles") {
+            viewAllRoles();
         }
-        if (choices === "view all roles") {
-            
-        }view
-        if (choices === "view all employees") {
-            
+        if (command === "view all employees") {
+            viewAllEmp();
         }
-        if (choices === "add a department") {
-            
+        if (command === "add a department") {
+            addDept();
         }
-        if (choices === "add a role") {
-            
+        if (command === "add a role") {
+            addRole();
         }
-        if (choices === "add an employee") {
-            
+        if (command === "add an employee") {
+            addEmp();
         }
-        if (choices === "update and employee role") {
-
+        if (command === "update an employee role") {
+            // Call the function to update an employee's role
         }
-    }
-    )
+    });
