@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const db = require('./config/connection');
-
+const db = require('./config/connection'); 
+// selecting everything from dept table 
 function viewAllDept() {
     db.query(`SELECT * FROM department;`, (err, result) => {
         if (err) {
@@ -10,7 +10,7 @@ function viewAllDept() {
         console.log(result)
     });
 };
-
+// selecting everything from role table 
 function viewAllRoles() {
     db.query(`SELECT * FROM role;`, (err, result) => {
         if (err) {
@@ -19,7 +19,7 @@ function viewAllRoles() {
         console.log(result)
     });
 };
-
+// joining employee and role table for user to see
 function viewAllEmp() {
     db.query(`SELECT employee.id AS employee_id, 
     employee.first_name, 
@@ -38,7 +38,7 @@ JOIN role ON employee.role_id = role.id`, (err, result) => {
         console.log(result)
     });
 };
-
+// prompting user for new dept data
 function addDept() {
     inquirer.prompt([
         {
@@ -48,7 +48,7 @@ function addDept() {
         }
     ]).then((res) => {
         const newDept = res.newDept;
-
+        // execute query statement to add new dept name
         db.query(`INSERT INTO department(name) VALUES(?);`, newDept, (err, result) => {
             if (err) {
                 console.log(err)
@@ -59,7 +59,7 @@ function addDept() {
     });
 
 };
-
+ // prompt user for new role data
 function addRole() {
     inquirer.prompt([
         {
@@ -110,7 +110,7 @@ function addRole() {
         });
     });
 };
-
+// prompt user for new emp data
 function addEmp() {
     inquirer.prompt([
         {
@@ -156,10 +156,9 @@ function addEmp() {
             'CSR': 935,
             'Project Manager': 401
         };
-
+        // setting the value of the role name to the role id 
         const newEmpRoleId = roleIdMap[newEmpRole];
 
-        // Construct the SQL query
         const sqlQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
 
         // Execute the query with the user's input
@@ -231,7 +230,7 @@ function updateEmp() {
         });
     });
 }
-
+// pulling user input and finding employee id by first and last name
 function getEmployeeIdByName(empName, callback) {
     const [firstName, lastName] = empName.split(' ');
 
@@ -248,10 +247,10 @@ function getEmployeeIdByName(empName, callback) {
     });
 }
 
-
+// taking user data from prompt and using it to find the role id
 function getRoleIdByTitle(roleTitle, callback) {
     const sqlQuery = 'SELECT id FROM role WHERE title = ?';
-
+    
     db.query(sqlQuery, [roleTitle], (err, result) => {
         if (err) {
             console.error(err);
