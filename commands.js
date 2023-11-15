@@ -12,7 +12,7 @@ function viewAllDept() {
 };
 
 function viewAllRoles() {
-    db.query(`SELECT * FROM roles;`, (err, result) => {
+    db.query(`SELECT * FROM role;`, (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -21,7 +21,17 @@ function viewAllRoles() {
 };
 
 function viewAllEmp() {
-    db.query(`SELECT * FROM employee JOIN role ON employee.role_id = role.id;`, (err, result) => {
+    db.query(`SELECT employee.id AS employee_id, 
+    employee.first_name, 
+    employee.last_name, 
+    employee.role_id, 
+    employee.manager_id,
+    role.id AS role_id, 
+    role.title, 
+    role.salary, 
+    role.department_id
+FROM employee
+JOIN role ON employee.role_id = role.id`, (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -139,12 +149,12 @@ function addEmp() {
 
         // Get the role_id based on the selected role title
         const roleIdMap = {
-            'Software Engineer': 1,
-            'Marketing Specialist': 2,
-            'Financial Analyst': 3,
-            'Human Resources Manager': 4,
-            'Customer Support Representative': 5,
-            'Project Manager': 6
+            'Software Engineer': 246,
+            'Marketing Specialist': 742,
+            'Financial Analyst': 399,
+            'HR Manager': 861,
+            'CSR': 935,
+            'Project Manager': 401
         };
 
         const newEmpRoleId = roleIdMap[newEmpRole];
@@ -159,3 +169,98 @@ function addEmp() {
         });
     });
 };
+
+function updateEmp() {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'empName',
+            message: 'which employee would you like to update?',
+            choices: [
+                'John Smith',
+                'Emily Johnson',
+                'Michael Davis',
+                'Sarah Wilson',
+                'Christopher Lee',
+                'Jessica Martinez',
+                'Brian Turner',
+                'Amanda Hall',
+                'David Thompson',
+                'Rachel Miller',
+                'Matthew Wright',
+                'Olivia Taylor',
+                'Kevin White',
+                'Lauren Brown',
+                'Brandon Evans'
+            ]
+        },
+        {
+            type: 'list',
+            name: 'newRole',
+            message: 'Select the new role for the employee:',
+            choices: ['Software Engineer', 'Marketing Specialist', 'Financial Analyst', 'HR Manager', 'CSR', 'Project Manager']
+        }
+    ]).then((answers) => {
+        // Assume you have a function to get the employee ID based on the name
+        getEmployeeIdByName(answers.empName, (err, empId) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            // Assume you have a function to get the role ID based on the title
+            getRoleIdByTitle(answers.newRole, (err, roleId) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                // Update the database with the new role for the selected employee
+                db.query(
+                    'UPDATE employee SET role_id = ? WHERE id = ?',
+                    [roleId, empId],
+                    (err, result) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            console.log(`Successfully updated ${answers.empName}'s role to ${answers.newRole}.`);
+                        }
+                    }
+                );
+            });
+        });
+    });
+}
+
+function getEmployeeIdByName(empName, callback) {
+    const [firstName, lastName] = empName.split(' ');
+
+    const sqlQuery = 'SELECT id FROM employee WHERE first_name = ? AND last_name = ?';
+
+    db.query(sqlQuery, [firstName, lastName], (err, result) => {
+        if (err) {
+            console.error(err);
+            callback(err, null);
+        } else {
+            const empId = result[0] ? result[0].id : null;
+            callback(null, empId);
+        }
+    });
+}
+
+
+function getRoleIdByTitle(roleTitle, callback) {
+    const sqlQuery = 'SELECT id FROM role WHERE title = ?';
+
+    db.query(sqlQuery, [roleTitle], (err, result) => {
+        if (err) {
+            console.error(err);
+            callback(err, null);
+        } else {
+            const roleId = result[0] ? result[0].id : null;
+            callback(null, roleId);
+        }
+    });
+}
+
+    module.exports = { viewAllDept, viewAllRoles, viewAllEmp, addDept, addRole, addEmp, updateEmp }

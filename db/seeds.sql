@@ -9,31 +9,32 @@ INSERT INTO department (name)
 ('Project Management');
 
 -- Insert data into role table
-INSERT INTO role (title, salary, department_id) 
+INSERT INTO role (id, title, salary, department_id) 
     VALUES
-('Software Engineer', 80000, 1),
-('Marketing Specialist', 60000, 2),
-('Financial Analyst', 70000, 3),
-('Human Resources Manager', 75000, 4),
-('Customer Support Representative', 50000, 5),
-('Project Manager', 85000, 6);
+(246, 'Software Engineer', 80000, 1),
+(742, 'Marketing Specialist', 60000, 2),
+(399, 'Financial Analyst', 70000, 3),
+(861, 'HR Manager', 75000, 4),
+(935, 'CSR', 50000, 5),
+(401, 'Project Manager', 85000, 6);
 
-
+-- Insert data in to employee table
 INSERT INTO employee (first_name, last_name, role_id, manager_id) 
-    VALUES
-('John', 'Smith', 1, NULL),
-('Emily', 'Johnson', 2, 1),
-('Michael', 'Davis', 3, 1),
-('Sarah', 'Wilson', 4, 2),
-('Christopher', 'Lee', 5, 3),
-('Jessica', 'Martinez', 6, 3),
-('Brian', 'Turner', 7, 4),
-('Amanda', 'Hall', 8, 4),
-('David', 'Thompson', 9, 5),
-('Rachel', 'Miller', 10, 5),
-('Matthew', 'Wright', 11, 6),
-('Olivia', 'Taylor', 12, 6),
-('Kevin', 'White', 13, 7),
-('Lauren', 'Brown', 14, 7),
-('Brandon', 'Evans', 15, 8);
+VALUES
+('John', 'Smith', 246, NULL),
+('Emily', 'Johnson', 742, 1),
+('Michael', 'Davis', 399, 1),
+('Sarah', 'Wilson', 861, 2),
+('Christopher', 'Lee', 935, 3),
+('Jessica', 'Martinez', 401, 3),
+('Brian', 'Turner', 246, 4),
+('Amanda', 'Hall', 742, 4),
+('David', 'Thompson', 399, 5),
+('Rachel', 'Miller', 861, 5),
+('Matthew', 'Wright', 935, 6),
+('Olivia', 'Taylor', 401, 6),
+('Kevin', 'White', 246, 7),
+('Lauren', 'Brown', 742, 7),
+('Brandon', 'Evans', 399, 8);
+
 

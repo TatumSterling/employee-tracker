@@ -2,6 +2,8 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const PORT = 3001
 const db = require('./config/connection');
+const {viewAllDept, viewAllRoles, viewAllEmp, addDept, addRole, addEmp, updateEmp} = require('./commands')
+require('dotenv').config();
 
 
 inquirer
@@ -43,6 +45,6 @@ inquirer
             addEmp();
         }
         if (command === "update an employee role") {
-            // Call the function to update an employee's role
+            updateEmp();
         }
     });
