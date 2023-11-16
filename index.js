@@ -6,45 +6,59 @@ const {viewAllDept, viewAllRoles, viewAllEmp, addDept, addRole, addEmp, updateEm
 require('dotenv').config();
 
 
-inquirer
-    .prompt([
-        {
-            type: "list", 
-            message: "Please select a command.",
-            name: "command",
-            choices: [
-                "view all departments",
-                "view all roles",
-                "view all employees",
-                "add a department",
-                "add a role",
-                "add an employee",
-                "update an employee role"
-            ]
+function init() {
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Please select a command.",
+                name: "command",
+                choices: [
+                    "view all departments",
+                    "view all roles",
+                    "view all employees",
+                    "add a department",
+                    "add a role",
+                    "add an employee",
+                    "update an employee role",
+                    "exit"  
+                ]
+            }
+        ])
+        .then( async(answers) => {
+            const { command } = answers;
 
-        }
-    ]).then((answers) => {
-        const { command } = answers;
+            if (command === "view all departments") {
+                viewAllDept();
 
-        if (command === "view all departments") {
-            viewAllDept();
-        }   
-        if (command === "view all roles") {
-            viewAllRoles();
-        }
-        if (command === "view all employees") {
-            viewAllEmp();
-        }
-        if (command === "add a department") {
-            addDept();
-        }
-        if (command === "add a role") {
-            addRole();
-        }
-        if (command === "add an employee") {
-            addEmp();
-        }
-        if (command === "update an employee role") {
-            updateEmp();
-        }
-    });
+            } else if (command === "view all roles") {
+                viewAllRoles();
+
+            } else if (command === "view all employees") {
+                viewAllEmp();
+
+            } else if (command === "add a department") {
+                addDept();
+
+            } else if (command === "add a role") {
+                addRole();
+
+            } else if (command === "add an employee") {
+                 addEmp();
+            } else if (command === "update an employee role") {
+                 updateEmp();
+
+            } else if (command === "exit") {
+                console.log("Exiting program...");
+                process.exit();
+
+            } 
+        })
+};
+
+
+
+    
+        
+
+init();

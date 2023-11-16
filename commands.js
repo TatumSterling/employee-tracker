@@ -1,7 +1,8 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const db = require('./config/connection'); 
-// selecting everything from dept table 
+
+// selecting everything from dept tab;le 
 function viewAllDept() {
     db.query(`SELECT * FROM department;`, (err, result) => {
         if (err) {
@@ -9,6 +10,7 @@ function viewAllDept() {
         }
         console.log(result)
     });
+
 };
 // selecting everything from role table 
 function viewAllRoles() {
@@ -18,6 +20,7 @@ function viewAllRoles() {
         }
         console.log(result)
     });
+
 };
 // joining employee and role table for user to see
 function viewAllEmp() {
@@ -57,6 +60,7 @@ function addDept() {
         });
 
     });
+  
 
 };
  // prompt user for new role data
@@ -108,7 +112,9 @@ function addRole() {
             if (err) throw err;
             console.log(`New role '${newRoleName}' added successfully!`);
         });
+        
     });
+
 };
 // prompt user for new emp data
 function addEmp() {
@@ -166,6 +172,7 @@ function addEmp() {
             if (err) throw err;
             console.log(`New employee '${newFirstName} ${newLastName}' added successfully!`);
         });
+      
     });
 };
 
@@ -228,6 +235,7 @@ function updateEmp() {
                 );
             });
         });
+   
     });
 }
 // pulling user input and finding employee id by first and last name
